@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:salesdb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+logging:
+  level:
+    com.example.sales.service: DEBUG
+    org.springframework.web: INFO
+
+juno:
+  api:
+    base-url: http://localhost:8081
+
+springdoc:
+  show-actuator: false
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+    docExpansion: none
+  packages-to-scan: com.example.sales.controller
