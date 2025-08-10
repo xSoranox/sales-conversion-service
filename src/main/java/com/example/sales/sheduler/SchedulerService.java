@@ -8,7 +8,6 @@ import com.example.sales.enums.EkwEnum;
 import com.example.sales.enums.TbsEnum;
 import com.example.sales.repository.SalesDataJpaRepository;
 import com.example.sales.util.SalesDataValidator;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,22 +35,10 @@ public class SchedulerService {
     @Value("${juno.api.base-url}")
     private String junoBaseUrl;
 
-
-    @PostConstruct
-    public void init() {
-        loadHistoricalData();
-    }
-
     @Scheduled(fixedRate = 300000)
     public void pollNewData() {
         LocalDate today = LocalDate.now();
         fetchAndSaveSalesData(today.minusDays(1), today);
-    }
-
-    private void loadHistoricalData() {
-        LocalDate startDate = LocalDate.of(2023, 1, 1);
-        LocalDate endDate = LocalDate.now();
-        fetchAndSaveSalesData(startDate, endDate);
     }
 
     private void fetchAndSaveSalesData(LocalDate fromDate, LocalDate toDate) {
@@ -63,7 +50,6 @@ public class SchedulerService {
 
         ResponseEntity<SalesDataDto[]> response = restTemplate.getForEntity(uriBuilder.toUriString(), SalesDataDto[].class);
         SalesDataDto[] salesData = response.getBody();
-
 
         if (salesData != null) {
             List<SalesDataDto> salesDataList = new ArrayList<>(Arrays.asList(salesData));
