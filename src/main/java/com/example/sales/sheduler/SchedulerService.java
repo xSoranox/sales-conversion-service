@@ -42,7 +42,7 @@ public class SchedulerService {
         loadHistoricalData();
     }
 
-    @Scheduled(fixedRate = 3000000)
+    @Scheduled(fixedRate = 300000)
     public void pollNewData() {
         LocalDate today = LocalDate.now();
         fetchAndSaveSalesData(today.minusDays(1), today);
